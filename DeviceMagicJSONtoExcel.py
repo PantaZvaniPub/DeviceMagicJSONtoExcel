@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 12 10:53:43 2025
-
-@author: A397778
-"""
 import streamlit as st
 import json
 import pandas as pd
+import os
 from io import BytesIO
-
-st.caption("This tool allows you to transform the form definition files that you get from Device Magic (.json files) into excel files formated in the same way that the A&E Question Bank uses. Please note that the tool is open source and don't upload forms that contain question definitions considered confidential.")
 
 def relabel_type(value):
     type_mapping = {
@@ -68,7 +61,9 @@ def convert_json_to_xlsx(json_data):
     output = BytesIO()
     df.to_excel(output, index=False)
     output.seek(0)
-    return output
+    
+    file_title = data.get("title", "converted_file").replace(" ", "_") + ".xlsx"
+    return output, file_title
 
 st.title("JSON to Excel Converter")
 
@@ -79,8 +74,9 @@ if uploaded_file:
     st.success("File uploaded successfully!")
     
     if st.button("Convert to Excel"):
-        excel_file = convert_json_to_xlsx(json_data)
+        excel_file, file_title = convert_json_to_xlsx(json_data)
         st.session_state["excel_file"] = excel_file
+        st.session_state["file_title"] = file_title
         st.success("Conversion successful! You can now download the file.")
         
     if "excel_file" in st.session_state:
