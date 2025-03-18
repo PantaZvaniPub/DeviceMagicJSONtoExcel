@@ -1,8 +1,9 @@
 import streamlit as st
 import json
 import pandas as pd
-import os
 from io import BytesIO
+
+st.caption("This tool allows you to transform the form definition files that you get from Device Magic (.json files) into excel files formated in the same way that the A&E Question Bank uses. Please note that the tool is open source and don't upload forms that contain question definitions considered confidential.")
 
 def relabel_type(value):
     type_mapping = {
