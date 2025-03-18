@@ -9,6 +9,8 @@ import json
 import pandas as pd
 from io import BytesIO
 
+st.caption("This tool allows you to transform the form definition files that you get from Device Magic (.json files) into excel files formated in the same way that the A&E Question Bank uses. Please note that the tool is open source and don't upload forms that contain question definitions considered confidential.")
+
 def relabel_type(value):
     type_mapping = {
         "text": "Free Text",
@@ -85,6 +87,6 @@ if uploaded_file:
         st.download_button(
             label="Download Excel File",
             data=st.session_state["excel_file"],
-            file_name="converted_file.xlsx",
+            file_name=st.session_state["file_title"],
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
